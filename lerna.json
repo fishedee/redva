@@ -1,0 +1,25 @@
+{
+  "lerna": "2.0.0",
+  "changelog": {
+    "repo": "fishedee/redva",
+    "labels": {
+      "new feature": ":rocket: New Feature",
+      "breaking change": ":boom: Breaking Change",
+      "bug": ":bug: Bug Fix",
+      "enhancement": ":nail_care: Enhancement",
+      "documentation": ":memo: Documentation"
+    },
+    "cacheDir": ".changelog"
+  },
+  "commands": {
+    "publish": {
+      "ignore": [
+        "redva-example*"
+      ]
+    }
+  },
+  "packages": [
+    "packages/*"
+  ],
+  "version": "independent"
+}

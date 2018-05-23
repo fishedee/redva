@@ -1,0 +1,49 @@
+{
+  "name": "redva-core",
+  "version": "1.0.2",
+  "description": "The core lightweight library for redva, based on redux and async/await.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fishedee/redva"
+  },
+  "homepage": "https://github.com/fishedee/redva",
+  "keywords": [
+    "redva",
+    "dva",
+    "alibaba",
+    "redux",
+    "redux-saga",
+    "elm",
+    "framework",
+    "frontend"
+  ],
+  "authors": [
+    "fishedee <fishedee@foxmail.com> (https://github.com/fishedee)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fishedee/redva/issues"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.34",
+    "flatten": "^1.0.2",
+    "global": "^4.3.2",
+    "immer": "^1.2.1",
+    "invariant": "^2.2.1",
+    "is-plain-object": "^2.0.3",
+    "redux": "^3.7.1",
+    "redux-saga": "^0.16.0",
+    "warning": "^3.0.0"
+  },
+  "peerDependencies": {
+    "redux": "3.x"
+  },
+  "devDependencies": {
+    "redux": "^4.0.0"
+  },
+  "files": [
+    "lib",
+    "src",
+    "index.js"
+  ]
+}
