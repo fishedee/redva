@@ -1,0 +1,33 @@
+{
+  "name": "redva-loading",
+  "version": "1.0.2",
+  "description": "Auto loading plugin for redva.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fishedee/redva"
+  },
+  "homepage": "https://github.com/fishedee/redva",
+  "keywords": [
+    "redva",
+    "redva-plugin",
+    "dva",
+    "dva-plugin",
+    "loading"
+  ],
+  "author": "fishedee <fishedee@foxmail.com>",
+  "license": "MIT",
+  "main": "lib/index.js",
+  "devDependencies": {
+    "redva": "^1.0.3"
+  },
+  "peerDependencies": {
+    "redva": "^1.0.2"
+  },
+  "files": [
+    "lib",
+    "src"
+  ],
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.34"
+  }
+}
