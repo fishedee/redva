@@ -1,0 +1,58 @@
+{
+  "name": "redva",
+  "version": "1.0.2",
+  "description": "React and redux based, lightweight and elm-style framework.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fishedee/redva"
+  },
+  "homepage": "https://github.com/fishedee/redva",
+  "keywords": [
+    "redva",
+    "dva",
+    "alibaba",
+    "react",
+    "react-native",
+    "redux",
+    "redux-saga",
+    "elm",
+    "framework",
+    "frontend"
+  ],
+  "authors": [
+    "chencheng <sorrycc@gmail.com> (https://github.com/sorrycc)"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fishedee/redva/issues"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.0.0-beta.34",
+    "@types/isomorphic-fetch": "^0.0.34",
+    "@types/react-router": "^4.0.23",
+    "@types/react-router-redux": "^5.0.13",
+    "global": "^4.3.2",
+    "history": "^4.6.3",
+    "invariant": "^2.2.2",
+    "isomorphic-fetch": "^2.2.1",
+    "react-redux": "^5.0.5",
+    "react-router-dom": "^4.1.2",
+    "react-router-redux": "5.0.0-alpha.9",
+    "redux": "^3.7.2",
+    "redva-core": "^1.0.3"
+  },
+  "peerDependencies": {
+    "react": "15.x || ^16.0.0-0",
+    "react-dom": "15.x || ^16.0.0-0"
+  },
+  "files": [
+    "lib",
+    "src",
+    "dist",
+    "dynamic.js",
+    "fetch.js",
+    "index.js",
+    "router.js",
+    "*.d.ts"
+  ]
+}
