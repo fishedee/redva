@@ -1,4 +1,4 @@
-import fetch from 'dva/fetch';
+import fetch from 'redva/fetch';
 
 function parseJSON(response) {
   return response.json();

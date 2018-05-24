@@ -1,8 +1,8 @@
-import dva from 'dva';
+import redva from 'redva';
 import './index.css';
 
 // 1. Initialize
-const app = dva();
+const app = redva();
 
 // 2. Plugins
 // app.use({});

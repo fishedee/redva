@@ -12,16 +12,19 @@ export default {
     },
   },
 
-  effects: {
-    *fetch({ payload }, { call, put }) {
+  actions: {
+    async fetch({ payload }, { dispatch }) {
       // eslint-disable-line
-      yield put({ type: 'save' });
+      await dispatch({ type: 'save' });
     },
   },
 
-  reducers: {
+  mutations: {
     save(state, action) {
-      return { ...state, ...action.payload };
+      state.example = {
+        ...state.example,
+        ...action.payload,
+      };
     },
   },
 };
