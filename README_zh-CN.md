@@ -23,6 +23,8 @@
 
 因为dva的开发模式超级正点，顺手，简单快速，只是我不太喜欢generator函数和immutable的繁琐修改方式，我将其改为[async/await](http://babeljs.io/docs/plugins/syntax-async-functions)的异步，以及[immerjs](https://github.com/mweststrate/immer)实现的immutable。
 
+非常感谢dva，redva中的90%的代码都是直接从dva中copy过来的，这只是dva的一个分支而已。
+
 ## Demos
 
 * [Count](https://github.com/fishedee/redva/tree/master/examples/counter): 简单计数器例子
@@ -31,7 +33,7 @@
 
 ## 快速上手
 
-- [Getting Started](https://github.com/fishedee/redva/blob/master/docs/GettingStarted.md)
+- [快速上手](https://github.com/fishedee/redva/blob/master/docs/GettingStarted.md)
 
 ## FAQ
 

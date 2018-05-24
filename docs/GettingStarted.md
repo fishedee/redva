@@ -1,6 +1,6 @@
 # Getting Started
 
-> This article will lead you to create [dva](https://github.com/dvajs/dva) app quickly, and learn all new concepts.
+> This article will lead you to create [redva](https://github.com/fishedee/redva) app quickly, and learn all new concepts.
 
 Final App.
 
@@ -33,25 +33,13 @@ Also:
 
 We can takes these questions to read this article. But don't worry, all the code we need is about 70 lines.
 
-## Install dva-cli
-
-dva-cli is the cli tool for dva, include `init`, `new`.
-
-```bash
-$ npm install -g dva-cli
-```
-
-After installed, you can check the version with `dva -v`, and view help info with `dva -h`.
-
 ## Create new App
 
-After installing dva-cli, we can create a new app with it, called `myapp`.
+After installing node and npm, we can create a new app with it, called `myapp`.
 
 ```bash
-$ dva new myapp --demo
+$ npx create-react-app myapp
 ```
-
-Notice: the `--demo` option is only used for creating demo level apps. If you want to create a normal project, don't add this option.
 
 `cd` myapp, and start it.
 
@@ -65,9 +53,10 @@ After a few seconds, you will get the following output:
 ```bash
 Compiled successfully!
 
-The app is running at:
+You can now view myapp in the browser.
 
-  http://localhost:8000/
+  Local:            http://localhost:3000/
+  On Your Network:  http://192.168.1.122:3000/
 
 Note that the development build is not optimized.
 To create a production build, use npm run build.
@@ -75,7 +64,14 @@ To create a production build, use npm run build.
 
 (Press `Ctrl-C` if you want to close server)
 
-Open http://localhost:8000/ in browser. If successful, you will see a page with "Hello Dva".
+Open http://localhost:3000/ in browser. If successful, you will see a page with "Hello Dva".
+
+```bash
+npm install redva --save
+npm install keymaster --save
+```
+
+install redva dependence
 
 ## Define models
 
@@ -143,16 +139,13 @@ app.model({
     record: 0,
     current: 0,
   },
-+ reducers: {
++ mutations: {
 +   add(state) {
-+     const newCurrent = state.current + 1;
-+     return { ...state,
-+       record: newCurrent > state.record ? newCurrent : state.record,
-+       current: newCurrent,
-+     };
++     state.count.current += 1;
++     state.count.record = state.count.current > state.count.record ?state.count.current:state.count.record
 +   },
 +   minus(state) {
-+     return { ...state, current: state.current - 1};
++     state.count.current -= 1;
 +   },
 + },
 });
@@ -160,8 +153,7 @@ app.model({
 
 Note:
 
-1. Confused with the `...` [spread](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator) operator? It's used to extend an Object, similar to `Object.extend`
-2. `add(state) {}` is equal to `add: function(state) {}`
+1. `add(state) {}` is equal to `add: function(state) {}`
 
 ## Bind Data
 
@@ -250,18 +242,18 @@ Result.
 
 Prior to this, all of our operations were synchronous. When clicking on the + button, the value is incremented by 1.
 
-Now we have to deal with async logic. dva processes side effects ( async logic ) with effects on model, which is executed based on [redux-saga](https://github.com/redux-saga/redux-saga), with generator syntax. [MDN documentation for generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Iterators_and_Generators).
+Now we have to deal with async logic. dva processes side effects ( async logic ) with effects on model, which is with [async/await](http://babeljs.io/docs/plugins/syntax-async-functions) syntax.
 
 In this app, when the user clicks the + button, the value will increase by 1 and trigger a side effect, that is, subtract (decrease by) 1 after 1 second.
 
 ```diff
 app.model({
   namespace: 'count',
-+ effects: {
-+   *addThenMinus(action, { call, put }) {
-+     yield put({ type: 'add' });
-+     yield call(delay, 1000);
-+     yield put({ type: 'minus' });
++ actions: {
++   async addThenMinus(action, { dispatch ,getState }) {
++     await dispatch({ type: 'add' });
++     await delay(1000);
++     await dispatch({ type: 'minus' });
 +   },
 + },
 ...
@@ -290,8 +282,8 @@ const CountApp = ({count, dispatch}) => {
 
 Note:
 
-1. `*add() {}` is equal to `add: function*(){}`
-2. `call` and `put` are effect commands from redux-saga. `call` is for async logic, and `put` is for dispatching actions. Besides these, there are commands such as `select`, `take`, `fork`, `cancel`, and so on. View more on [redux-saga documatation](http://redux-saga.github.io/redux-saga/docs/basics/DeclarativeEffects.html)
+1. `async add() {}` is equal to `add: async function(){}`
+2. `dispatch` and `getState` are store commands from redux. 
 
 Refresh you browser, and if successful, it should have all the effects of the beginning gif.
 
@@ -334,13 +326,13 @@ webpack: bundle build is now finished.
 index.js
 
 ```javascript
-import dva, { connect } from 'dva';
-import { Router, Route } from 'dva/router';
+import redva, { connect } from 'redva';
+import { Router, Route } from 'redva/router';
 import React from 'react';
-import styles from './index.less';
+import styles from './index.css';
 import key from 'keymaster';
 
-const app = dva();
+const app = redva();
 
 app.model({
   namespace: 'count',
@@ -348,23 +340,20 @@ app.model({
     record: 0,
     current: 0,
   },
-  reducers: {
+  mutations: {
     add(state) {
-      const newCurrent = state.current + 1;
-      return { ...state,
-        record: newCurrent > state.record ? newCurrent : state.record,
-        current: newCurrent,
-      };
+      state.count.current += 1;
+      state.count.record = state.count.current> state.count.record?state.count.current:state.count.record;
     },
     minus(state) {
-      return { ...state, current: state.current - 1};
+      state.count.current -= 1;
     },
   },
-  effects: {
-    *addThenMinus(action, { call, put }) {
-      yield put({ type: 'add' });
-      yield call(delay, 1000);
-      yield put({ type: 'minus' });
+  actions: {
+    async addThenMinus(action, { dispatch, getState }) {
+      await dispatch({ type: 'add' });
+      await delay(1000);
+      await dispatch({ type: 'minus' });
     },
   },
   subscriptions: {
@@ -421,21 +410,19 @@ $ npm run build
 Output.
 
 ```bash
-> @ build /private/tmp/dva-quickstart
-> atool-build
+Creating an optimized production build...
+Compiled successfully.
 
-Child
-    Time: 6891ms
-        Asset       Size  Chunks             Chunk Names
-    common.js    1.18 kB       0  [emitted]  common
-     index.js     281 kB    1, 0  [emitted]  index
-    index.css  353 bytes    1, 0  [emitted]  index
+File sizes after gzip:
+
+  73.5 KB  build/static/js/main.7c73093e.js
+  109 B    build/static/css/main.65027555.css
 ```
 
-After build success, you can find compiled files in `dist` directory.
+After build success, you can find compiled files in `build` directory.
 
 ## What's Next
 
 After completing this app, do you have answers to all of the questions in the beginning? Do you understand the concepts in dva, like `model`, `router`, `reducers`, `effects` and `subscriptions` ?
 
-Next, you can view [dva official library](https://github.com/dvajs/dva) for more information.
+Next, you can view [redva official library](https://github.com/fishedee/redva) for more information.

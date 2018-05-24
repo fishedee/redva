@@ -23,7 +23,7 @@ Lightweight front-end framework based on [redux](https://github.com/reactjs/redu
 
 Because [dva](https://github.com/dvajs/dva)) is fantastic and unbelievable, but I don't like generator function and immutable, so I instead of them by [async/await](http://babeljs.io/docs/plugins/syntax-async-functions) and [immer](https://github.com/mweststrate/immer)。
 
-And Thanks dva very much,there are up to 50% code copy from dva, i just modify very few code.
+And Thanks dva very much,there are up to 90% code copy from dva, i just modify very few code.
 
 ## Demos
 
