@@ -3,36 +3,32 @@
 [以中文版查看此文](./API_zh-CN.md)
 
 ## Export Files
-### dva
+### redva
 
 Default export file.
 
-### dva/router
+### redva/router
 
 Export the api of [react-router@4.x](https://github.com/ReactTraining/react-router), and also export [react-router-redux](https://github.com/reactjs/react-router-redux) with the `routerRedux` key.
 
 e.g.
 
 ```js
-import { Router, Route, routerRedux } from 'dva/router';
+import { Router, Route, routerRedux } from 'redva/router';
 ```
 
-### dva/fetch
+### redva/fetch
 
 Async request library, export the api of [isomorphic-fetch](https://github.com/matthew-andrews/isomorphic-fetch). It's just for convenience, you can choose other libraries for free.
 
-### dva/saga
+### redva/dynamic
 
-Export the api of [redux-saga](https://github.com/yelouafi/redux-saga).
-
-### dva/dynamic
-
-Util method to load React Component and dva model dynamically.
+Util method to load React Component and redva model dynamically.
 
 e.g.
 
 ```js
-import dynamic from 'dva/dynamic';
+import dynamic from 'redva/dynamic';
 
 const UserPageComponent = dynamic({
   app,
@@ -45,14 +41,14 @@ const UserPageComponent = dynamic({
 
 `opts` include:
 
-* app: dva instance
-* models: function which return promise, and the promise return dva model
+* app: redva instance
+* models: function which return promise, and the promise return redva model
 * component：function which return promise, and the promise return React Component
 
-## dva API
-### `app = dva(opts)`
+## redva API
+### `app = redva(opts)`
 
-Create app, and return dva instance. (Notice: dva support multiple instances.)
+Create app, and return redva instance. (Notice: redva support multiple instances.)
 
 `opts` includes:
 
@@ -63,7 +59,7 @@ e.g. use `browserHistory`:
 
 ```js
 import createHistory from 'history/createBrowserHistory';
-const app = dva({
+const app = redva({
   history: createHistory(),
 });
 ```
@@ -71,15 +67,14 @@ const app = dva({
 Besides, for convenience, we can configure [hooks](#appusehooks) in `opts`, like this:
 
 ```js
-const app = dva({
+const app = redva({
   history,
   initialState,
   onError,
   onAction,
   onStateChange,
-  onReducer,
-  onEffect,
-  onHmr,
+  onMutation,
+  extraMiddlewares,
   extraReducers,
   extraEnhancers,
 });
@@ -89,10 +84,10 @@ const app = dva({
 
 Specify hooks or register plugin. (Plugin return hooks finally.)
 
-e.g. register [dva-loading](https://github.com/dvajs/dva-loading) plugin:
+e.g. register [redva-loading](https://github.com/fishedee/redva) plugin:
 
 ```js
-import createLoading from 'dva-loading';
+import createLoading from 'redva-loading';
 ...
 app.use(createLoading(opts));
 ```
@@ -101,7 +96,7 @@ app.use(createLoading(opts));
 
 #### `onError((err, dispatch) => {})`
 
-Triggered when `effect` has error or `subscription` throw error with `done`. Used for managing global error.
+Triggered when `action` has error or `subscription` throw error with `done`. Used for managing global error.
 
 Notice: `subscription`'s error must be throw with the send argument `done`. e.g.
 
@@ -119,7 +114,7 @@ If we are using antd, the most simple error handle would be like this:
 
 ```js
 import { message } from 'antd';
-const app = dva({
+const app = redva({
   onError(e) {
     message.error(e.message, /* duration */3);
   },
@@ -128,50 +123,28 @@ const app = dva({
 
 #### `onAction(fn | fn[])`
 
-Triggered when action is dispatched. Used for register redux middleware.
-
-e.g. use [redux-logger](https://github.com/evgenyrodionov/redux-logger) to log actions:
-
-```js
-import createLogger from 'redux-logger';
-const app = dva({
-  onAction: createLogger(opts),
-});
-```
+Triggered when async action is dispatched. Used for register redux middleware.
 
 #### `onStateChange(fn)`
 
 Triggered when `state` changes. Used for sync `state` to localStorage or server and so on.
 
-#### `onReducer(fn)`
+#### `onMutation(fn)`
 
-Wrap reducer execute.
+Wrap mutation execute.
 
-e.g. use [redux-undo](https://github.com/omnidan/redux-undo) to implement redo/undo:
+#### `extraMiddlewares`
+
+Specify extra middlewares.
+
+e.g. use [redux-logger](https://github.com/evgenyrodionov/redux-logger) to log actions:
 
 ```js
-import undoable from 'redux-undo';
-const app = dva({
-  onReducer: reducer => {
-    return (state, action) => {
-      const undoOpts = {};
-      const newState = undoable(reducer, undoOpts)(state, action);
-      // 由于 dva 同步了 routing 数据，所以需要把这部分还原
-      return { ...newState, routing: newState.present.routing };
-    },
-  },
+import createLogger from 'redux-logger';
+const app = redva({
+  extraMiddlewares: createLogger(opts),
 });
 ```
-
-#### `onEffect(fn)`
-
-Wrap effect execute.
-
-e.g. [dva-loading](https://github.com/dvajs/dva-loading) has implement auto loading state with this hook.
-
-#### `onHmr(fn)`
-
-HMR(Hot Module Replacement) related, currently used in [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr).
 
 #### `extraReducers`
 
@@ -181,7 +154,7 @@ e.g. [redux-form](https://github.com/erikras/redux-form) needs extra `form` redu
 
 ```js
 import { reducer as formReducer } from 'redux-form'
-const app = dva({
+const app = redva({
   extraReducers: {
     form: formReducer,
   },
@@ -192,11 +165,11 @@ const app = dva({
 
 Specify extra [StoreEnhancer](https://github.com/reactjs/redux/blob/master/docs/Glossary.md#store-enhancer)s.
 
-e.g. use dva with [redux-persist](https://github.com/rt2zz/redux-persist):
+e.g. use redva with [redux-persist](https://github.com/rt2zz/redux-persist):
 
 ```js
 import { persistStore, autoRehydrate } from 'redux-persist';
-const app = dva({
+const app = redva({
   extraEnhancers: [autoRehydrate()],
 });
 persistStore(app._store);
@@ -217,7 +190,7 @@ Register router config.
 e.g.
 
 ```js
-import { Router, Route } from 'dva/router';
+import { Router, Route } from 'redva/router';
 app.router(({ history }) => {
   return (
     <Router history={history}>
@@ -227,7 +200,7 @@ app.router(({ history }) => {
 });
 ```
 
-Recommend using separate file to config router. Then we can do hmr with [babel-plugin-dva-hmr](https://github.com/dvajs/babel-plugin-dva-hmr). e.g.
+Recommend using separate file to config router. 
 
 ```js
 app.router(require('./router'));
@@ -257,7 +230,7 @@ ReactDOM.render(<IntlProvider><App /></IntlProvider>, htmlElement);
 ```
 
 ## Model
-model is the most important concept in dva.
+model is the most important concept in redva.
 
 e.g.
 
@@ -265,17 +238,16 @@ e.g.
 app.model({
   namespace: 'todo',
 	state: [],
-  reducers: {
+  mutations: {
     add(state, { payload: todo }) {
-      // Save data to state
-      return [...state, todo];
+      state.todo.push(todo);
     },
   },
-  effects: {
-    *save({ payload: todo }, { put, call }) {
+  actions: {
+    async save({ payload: todo }, { dispatch }) {
       // Call saveTodoToServer, then trigger `add` action to save data
-      yield call(saveTodoToServer, todo);
-      yield put({ type: 'add', payload: todo });
+      await saveTodoToServer(todo);
+      await dispatch({ type: 'add', payload: todo });
     },
   },
   subscriptions: {
@@ -299,12 +271,12 @@ model's namespace.
 
 ### state
 
-models's initial state, it's priority is lower then `opts.initialState` in `dva()`.
+models's initial state, it's priority is lower then `opts.initialState` in `redva()`.
 
 e.g.
 
 ```
-const app = dva({
+const app = redva({
   initialState: { count: 1 },
 });
 app.model({
@@ -315,28 +287,17 @@ app.model({
 
 Then, state.count is 1 after `app.start()`.
 
-### reducers
+### mutations
 
-Store reducers in key/value Object. reducer is the only place to modify `state`. Triggered by `action`.
+Store mutations in key/value Object. mutations is the only place to modify `state`. Triggered by `action`.
 
-`(state, action) => newState` or `[(state, action) => newState, enhancer]`
+`(state, action)`
 
-View https://github.com/dvajs/dva/blob/master/packages/dva-core/test/reducers.test.js for details.
+### actions
 
-### effects
+Store async actions in key/value Object. Used for do async operations and biz logic, don't modify `state` directly. Triggered by `action`, could trigger new `action`, communicate with server, select data from global `state` and so on.
 
-Store effects in key/value Object. Used for do async operations and biz logic, don't modify `state` directly. Triggered by `action`, could trigger new `action`, communicate with server, select data from global `state` and so on.
-
-`*(action, effects) => void` or `[*(action, effects) => void, { type }]`。
-
-type includes:
-
-* `takeEvery`
-* `takeLatest`
-* `throttle`
-* `watcher`
-
-View https://github.com/dvajs/dva/blob/master/packages/dva-core/test/effects.test.js for details.
+`async (action, {dispatch,getState}) => void`
 
 ### subscriptions
 

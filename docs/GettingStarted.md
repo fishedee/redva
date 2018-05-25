@@ -64,7 +64,7 @@ To create a production build, use npm run build.
 
 (Press `Ctrl-C` if you want to close server)
 
-Open http://localhost:3000/ in browser. If successful, you will see a page with "Hello Dva".
+Open http://localhost:3000/ in browser. If successful, you will see a page with "Hello React".
 
 ```bash
 npm install redva --save
@@ -97,7 +97,7 @@ app.model({
 
 ## Write components
 
-After designing the model, we begin to write component. We recommend organizing the Component with [stateless functions](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions) because we don't need state almost at all in dva architecture.
+After designing the model, we begin to write component. We recommend organizing the Component with [stateless functions](https://facebook.github.io/react/docs/reusable-components.html#stateless-functions) because we don't need state almost at all in redva architecture.
 
 ```javascript
 import styles from './index.less';
@@ -122,15 +122,15 @@ Notice:
 
 ## Update state
 
-`reducer` is the only one that can update state.  This makes our app stable, as all data modifications are traceable. `reducer` is a pure function, and accepts two arguments - `state` and an `action`, and returns a new `state`.
+`mutation` is the only one that can update state.  This makes our app stable, as all data modifications are traceable. `mutation`  accepts two arguments - `state` and an `action`, and just directly modify `state`.
 
 ```javascript
-(state, action) => newState
+(state, action) 
 ```
 
 We need two reducers, `add` and `minus`. Please note that `add` will only be recorded if it is the highest.
 
-> Note: `add` and `minus` don't need to add namespace prefixes in `count` model. But if it is outside the model, the action must prefix the namespace separated with `/`. e.g. `count/add`.
+> Note: `add` and `minus` must be add namespace prefixes in `count` model. this is not the same with dva.
 
 ```diff
 app.model({
@@ -242,9 +242,9 @@ Result.
 
 Prior to this, all of our operations were synchronous. When clicking on the + button, the value is incremented by 1.
 
-Now we have to deal with async logic. dva processes side effects ( async logic ) with effects on model, which is with [async/await](http://babeljs.io/docs/plugins/syntax-async-functions) syntax.
+Now we have to deal with async logic. redva processes async action on model, which is with [async/await](http://babeljs.io/docs/plugins/syntax-async-functions) syntax.
 
-In this app, when the user clicks the + button, the value will increase by 1 and trigger a side effect, that is, subtract (decrease by) 1 after 1 second.
+In this app, when the user clicks the + button, the value will increase by 1 and trigger an action, that is, subtract (decrease by) 1 after 1 second.
 
 ```diff
 app.model({
@@ -310,15 +310,10 @@ app.model({
 });
 ```
 
-Here, we don't need to install the `keymaster` dependency manually. When we write `import key from 'keymaster';` and save, dva-cli will install `keymaster` and save to `package.json`. The output looks like this:
+you need to add `npm install keymaster --save` first.
 
 ```bash
-use npm: tnpm
-Installing `keymaster`...
-[keymaster@*] installed at node_modules/.npminstall/keymaster/1.6.2/keymaster (1 packages, use 745ms, speed 24.06kB/s, json 2.98kB, tarball 15.08kB)
-All packages installed (1 packages installed from npm registry, use 755ms, speed 23.93kB/s, json 1(2.98kB), tarball 15.08kB)
-📦  2/2 build modules
-webpack: bundle build is now finished.
+npm install keymaster --save
 ```
 
 ## All Code Together

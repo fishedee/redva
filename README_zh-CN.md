@@ -47,7 +47,10 @@
 
 ## 下一步
 
-实现HMR和TypeScript的支持。
+基础文章
+
+* redva [8 个概念](https://github.com/fishedee/redva/blob/master/docs/Concepts_zh-CN.md)
+* redva [APIs](https://github.com/fishedee/redva/blob/master/docs/API_zh-CN.md)
 
 ## License
 

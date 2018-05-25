@@ -47,7 +47,10 @@ No.
 
 ## Next
 
-Support HMR and Typescript
+Some basic articles.
+
+* The [8 Concepts](https://github.com/fishedee/redva/blob/master/docs/Concepts.md), and know how they are connected together
+* redva [APIs](https://github.com/fishedee/redva/blob/master/docs/API.md)
 
 ## License
 
