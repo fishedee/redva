@@ -1,6 +1,6 @@
 {
   "name": "redva",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "React and redux based, lightweight and elm-style framework.",
   "repository": {
     "type": "git",
@@ -39,7 +39,7 @@
     "react-router-dom": "^4.1.2",
     "react-router-redux": "5.0.0-alpha.9",
     "redux": "^3.7.2",
-    "redva-core": "^1.0.3"
+    "redva-core": "^1.0.4"
   },
   "peerDependencies": {
     "react": "15.x || ^16.0.0-0",

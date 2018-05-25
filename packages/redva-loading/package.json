@@ -1,6 +1,6 @@
 {
   "name": "redva-loading",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Auto loading plugin for redva.",
   "repository": {
     "type": "git",
@@ -18,7 +18,7 @@
   "license": "MIT",
   "main": "lib/index.js",
   "devDependencies": {
-    "redva": "^1.0.3"
+    "redva": "^1.0.4"
   },
   "peerDependencies": {
     "redva": "^1.0.2"
