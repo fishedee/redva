@@ -21,16 +21,22 @@ export default function getAction(effects, model, onError, onEffect) {
 function getSingleAction(key, effect, model, onError, onEffect) {
   invariant(isFunction(effect), '[model.action]: action should be function');
   let actionWithCatch = async function(action, { dispatch, ...rest }) {
-    try {
-      dispatch = prefixedDispatch(dispatch, model);
+    dispatch = prefixedDispatch(dispatch, model);
+    if (action.__redva_no_catch) {
       return await effect(action, { dispatch, ...rest });
-    } catch (e) {
-      onError(e, {
-        key,
-        actionArgs: arguments,
-      });
-      if (!e._dontReject) {
-        throw e;
+    } else {
+      try {
+        return await effect(action, { dispatch, ...rest });
+      } catch (e) {
+        onError(e, {
+          key,
+          actionArgs: arguments,
+        });
+        if (!e._dontReject) {
+          throw e;
+        } else {
+          return e;
+        }
       }
     }
   };

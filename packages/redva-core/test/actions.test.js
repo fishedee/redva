@@ -229,6 +229,85 @@ describe('effects', () => {
       });
   });
 
+  it('onError in deep action', () => {
+    const errors = [];
+    const app = create({
+      onError: (error, dispatch) => {
+        errors.push(error.message);
+        dispatch({ type: 'count/add' });
+      },
+    });
+    app.model({
+      namespace: 'count',
+      state: 0,
+      mutations: {
+        add(state, { payload }) {
+          state.count += payload || 1;
+        },
+      },
+      actions: {
+        async throwError() {
+          await delay(100);
+          throw new Error('effect error');
+        },
+        async addDelay({ payload }, { dispatch }) {
+          await dispatch({ type: 'throwError' });
+        },
+      },
+    });
+    app.start();
+    app._store
+      .dispatch({ type: 'count/addDelay' })
+      .then(() => {
+        expect(false).toEqual('never should be here');
+      })
+      .catch(err => {
+        expect(err.message).toEqual('effect error');
+        expect(errors).toEqual(['effect error']);
+        expect(app._store.getState().count).toEqual(1);
+      });
+  });
+
+  it('onError in deep action and preventDefault', () => {
+    const errors = [];
+    const app = create({
+      onError: (error, dispatch) => {
+        error.preventDefault();
+        errors.push(error.message);
+        dispatch({ type: 'count/add' });
+      },
+    });
+    app.model({
+      namespace: 'count',
+      state: 0,
+      mutations: {
+        add(state, { payload }) {
+          state.count += payload || 1;
+        },
+      },
+      actions: {
+        async throwError() {
+          await delay(100);
+          throw new Error('effect error');
+        },
+        async addDelay({ payload }, { dispatch }) {
+          await dispatch({ type: 'throwError' });
+        },
+      },
+    });
+    app.start();
+    app._store
+      .dispatch({ type: 'count/addDelay' })
+      .then(err => {
+        expect(err.message).toEqual('effect error');
+        expect(errors).toEqual(['effect error']);
+        expect(app._store.getState().count).toEqual(1);
+      })
+      .catch(() => {
+        expect(false).toEqual('never should be here');
+      });
+  });
+
   it('onAction', done => {
     const SHOW = '@@LOADING/SHOW';
     const HIDE = '@@LOADING/HIDE';

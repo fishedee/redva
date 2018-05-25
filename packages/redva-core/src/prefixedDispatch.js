@@ -13,6 +13,10 @@ export default function prefixedDispatch(dispatch, model) {
         model.namespace
       }`
     );
-    return dispatch({ ...action, type: prefixType(type, model) });
+    return dispatch({
+      ...action,
+      type: prefixType(type, model),
+      __redva_no_catch: true,
+    });
   };
 }
