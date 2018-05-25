@@ -13,6 +13,8 @@ import {
 } from './subscription';
 import { noop } from './utils';
 
+noop;
+
 // Internal model to update global state when do unmodel
 const redvaModel = {
   namespace: '@@redva',

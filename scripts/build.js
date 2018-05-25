@@ -1,5 +1,5 @@
 const vfs = require('vinyl-fs');
-const babel = require('@babel/core');
+const babel = require('babel-core');
 const through = require('through2');
 const chalk = require('chalk');
 const rimraf = require('rimraf');
@@ -12,29 +12,29 @@ const lib = process.env.ES ? 'es' : 'lib';
 const nodeBabelConfig = {
   presets: [
     [
-      require.resolve('@babel/preset-env'),
+      require.resolve('babel-preset-env'),
       {
         targets: {
           node: 6,
         },
       },
     ],
-    [require.resolve('@babel/preset-stage-0'), { decoratorsLegacy: true }],
+    require.resolve('babel-preset-stage-0'),
   ],
 };
 const browserBabelConfig = {
   presets: [
     [
-      require.resolve('@babel/preset-env'),
+      require.resolve('babel-preset-env'),
       {
         browsers: ['last 2 versions', 'IE 10'],
         modules: process.env.ES ? false : 'commonjs',
       },
     ],
-    require.resolve('@babel/preset-react'),
-    [require.resolve('@babel/preset-stage-0'), { decoratorsLegacy: true }],
+    require.resolve('babel-preset-react'),
+    require.resolve('babel-preset-stage-0'),
   ],
-  plugins: [require.resolve('@babel/plugin-transform-runtime')],
+  plugins: [require.resolve('babel-plugin-transform-runtime')],
 };
 
 const cwd = process.cwd();
