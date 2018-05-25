@@ -29,7 +29,7 @@
 
 * [Count](https://github.com/fishedee/redva/tree/master/examples/counter): 简单计数器例子
 * [Async](https://github.com/fishedee/redva/tree/master/examples/async): 简单异步例子
-* [Todo](https://github.com/fishedee/redva/tree/master/examples/todo): 简单Todo例子
+* [Todo](https://github.com/fishedee/redva/tree/master/examples/todomvc): 简单Todo例子
 
 ## 快速上手
 

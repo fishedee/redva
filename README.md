@@ -29,7 +29,7 @@ And Thanks dva very much,there are up to 90% code copy from dva, i just modify v
 
 * [Count](https://github.com/fishedee/redva/tree/master/examples/counter): Simple count example
 * [Async](https://github.com/fishedee/redva/tree/master/examples/async): Simple async example
-* [Todo](https://github.com/fishedee/redva/tree/master/examples/todo): Simple todo example
+* [Todo](https://github.com/fishedee/redva/tree/master/examples/todomvc): Simple todo example
 
 ## Quick Start
 

@@ -97,7 +97,7 @@ app.router(({history}) =>
 
 ## Route Components
 
-所以在 dva 中，通常需要 connect Model的组件都是 Route Components，组织在`/routes/`目录下，而`/components/`目录下则是纯组件（Presentational Components）。
+所以在 redva 中，通常需要 connect Model的组件都是 Route Components，组织在`/routes/`目录下，而`/components/`目录下则是纯组件（Presentational Components）。
 
 ## 参考引申
 
