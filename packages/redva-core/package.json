@@ -1,6 +1,6 @@
 {
   "name": "redva-core",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "The core lightweight library for redva, based on redux and async/await.",
   "repository": {
     "type": "git",
