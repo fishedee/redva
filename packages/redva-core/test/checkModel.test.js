@@ -28,7 +28,7 @@ describe('checkModel', () => {
         namespace: '_object',
         mutations: {},
       });
-    }).toNotThrow();
+    }).not.toThrow();
   });
 
   it('reducers can not be array', () => {
@@ -73,7 +73,7 @@ describe('checkModel', () => {
       app.model({
         namespace: '_',
       });
-    }).toNotThrow();
+    }).not.toThrow();
   });
 
   it('effects should be plain object', () => {
@@ -95,6 +95,6 @@ describe('checkModel', () => {
         namespace: '_',
         actions: {},
       });
-    }).toNotThrow();
+    }).not.toThrow();
   });
 });
