@@ -41,4 +41,7 @@ class Todo extends React.PureComponent {
     );
   }
 }
-export default connect(state => ({ todo: state.todo }))(Todo);
+export default connect(state => {
+  console.log('ut',state);
+  return { todo: state.todo }
+})(Todo);

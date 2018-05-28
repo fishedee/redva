@@ -23,4 +23,10 @@ class Counter extends React.PureComponent {
   }
 }
 
-export default connect(state => ({ counter: state.counter }))(Counter);
+export default connect(state => {
+  console.log('ut',state);
+  return { 
+    counter: state.counter 
+  }
+})(Counter);
+

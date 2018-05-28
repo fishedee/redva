@@ -190,6 +190,7 @@ describe('app.model', () => {
       },
     });
 
+    expect(app._store.getState()).toEqual({ a: 0, b: 0 ,'@@redva':0});
     app._store.dispatch({ type: 'b/addBoth' });
     app.unmodel('b');
     app._store.dispatch({ type: 'b/addBoth' });
