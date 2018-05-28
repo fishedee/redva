@@ -10,6 +10,6 @@ const cwd = process.cwd();
 const packages = ["redva","redva-core","redva-loading"];
 for( const key in packages ){
   const package = packages[key];
-  exec("cd "+cwd+"/packages/"+package+" && npm run build")
+  exec("cd "+cwd+"/packages/"+package+" && npm test")
 }
 

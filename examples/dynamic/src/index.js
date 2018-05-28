@@ -1,24 +1,39 @@
-import '@babel/polyfill';
+import 'babel-polyfill';
 import 'url-polyfill';
 import React from 'react';
 import app from './common/app';
 import routers from './common/router';
-import { routerRedux, Route, Switch, Redirect } from 'redva/router';
+import {connect} from 'redva';
+import { routerRedux,Router, Route, Switch, Redirect } from 'redva/router';
 
-const { ConnectedRouter } = routerRedux;
+class Naviagtion extends React.PureComponent{
+  constructor(props){
+    super(props);
+  }
+  next(url){
+    this.props.dispatch(routerRedux.replace(url))
+  }
+  render(){
+    return(
+      <div style={{ marginBottom: '50px' }}>
+        导航栏:
+        {routers.map(router => (
+          <div key={router.url} style={{color:'blue',textDecoration:'underline',cursor:'pointer'}} onClick={this.next.bind(this,router.url)}>
+            {router.name}
+          </div>
+        ))}
+      </div>
+    );
+  }
+}
+
+let NaviagtionConnect = connect()(Naviagtion)
 
 app.router(({ history, app }) => {
   return (
-    <ConnectedRouter history={history}>
+    <Router history={history}>
       <div>
-        <div style={{ marginBottom: '50px' }}>
-          导航栏:
-          {routers.map(router => (
-            <div key={router.url}>
-              <a href={'#' + router.url}>{router.name}</a>
-            </div>
-          ))}
-        </div>
+        <NaviagtionConnect/>
         <Switch>
           {routers.map(router => (
             <Route
@@ -31,7 +46,7 @@ app.router(({ history, app }) => {
           <Redirect exact={true} from="/" to="/counter" />
         </Switch>
       </div>
-    </ConnectedRouter>
+    </Router>
   );
 });
 

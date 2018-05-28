@@ -237,6 +237,7 @@ the right behavior is only trigger once onError, and never trigger 'Happy BirthD
 * [Async](https://github.com/fishedee/redva/tree/master/examples/async): Simple async example
 * [Todo](https://github.com/fishedee/redva/tree/master/examples/todomvc): Simple todo example
 * [Dynamic](https://github.com/fishedee/redva/tree/master/examples/dynamic): Simple dynamic load component and model example
+* [AsyncLoading](https://github.com/fishedee/redva/tree/master/examples/async-loading): Simple async and redva-loading middleware example
 
 ## Quick Start
 

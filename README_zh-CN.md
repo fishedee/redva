@@ -236,6 +236,7 @@ app._store.dispatch({
 * [Async](https://github.com/fishedee/redva/tree/master/examples/async): 简单异步例子
 * [Todo](https://github.com/fishedee/redva/tree/master/examples/todomvc): 简单Todo例子
 * [Dynamic](https://github.com/fishedee/redva/tree/master/examples/dynamic): 简单的动态获取component和model的例子
+* [AsyncLoading](https://github.com/fishedee/redva/tree/master/examples/async-loading): 简单的使用redva-loading中间件的例子
 
 ## 快速上手
 

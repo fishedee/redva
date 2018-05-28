@@ -1,14 +1,12 @@
 import React from 'react';
-import { routerRedux, Route, Switch } from 'redva/router';
+import { Router, Route, Switch } from 'redva/router';
 import IndexPage from './routes/IndexPage';
-
-const { ConnectedRouter } = routerRedux;
 
 function RouterConfig({ history }) {
   return (
-    <ConnectedRouter history={history}>
-      <Route path="/" exact component={IndexPage} />
-    </ConnectedRouter>
+    <Router history={history}>
+      <Route path="/" exact={true} component={IndexPage} />
+    </Router>
   );
 }
 
