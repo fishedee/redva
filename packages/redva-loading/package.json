@@ -1,6 +1,6 @@
 {
   "name": "redva-loading",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "description": "Auto loading plugin for redva.",
   "scripts": {
     "build": "babel src -d lib",
@@ -30,9 +30,9 @@
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1",
     "jest": "^23.0.0",
-    "react":"^16.4.0",
-    "react-dom":"^16.4.0",
-    "redva":"^1.1.0"
+    "react": "^16.4.0",
+    "react-dom": "^16.4.0",
+    "redva": "^1.1.1"
   },
   "peerDependencies": {
     "react": "15.x || ^16.0.0-0",
