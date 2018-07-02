@@ -29,6 +29,35 @@ describe('effects', () => {
       done();
     }, 200);
   });
+  it('dispatch action with similar type', async(done) => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      mutations: {
+        add(state, { payload }) {
+          state.count += payload || 1;
+        },
+      },
+      actions: {
+        async addDelay({ payload }, { dispatch }) {
+          await dispatch({ type: 'add', payload });
+        },
+      },
+    });
+    app.start();
+    expect(app._store.getState().count).toEqual(0);
+    
+    await app._store.dispatch({ type: 'count/addDelay', payload: 2 });
+    await app._store.dispatch({ type: '/count/addDelay', payload: 2 });
+    await app._store.dispatch({ type: 'count/addDelay/', payload: 2 });
+    await app._store.dispatch({ type: 'count//addDelay', payload: 2 });
+    await app._store.dispatch({ type: '/count/add', payload: 2 });
+    await app._store.dispatch({ type: 'count/add/', payload: 2 });
+    await app._store.dispatch({ type: 'count//add', payload: 2 });
+    expect(app._store.getState().count).toEqual(14);
+    done();
+  });
 
   it('dispatch action with namespace will get a warning', done => {
     const app = create();

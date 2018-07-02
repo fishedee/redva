@@ -1,5 +1,6 @@
 import produce from 'immer';
 import invariant from 'invariant';
+import {resetType} from './utils';
 
 export function combineReducers(reducers) {
   return (state = {}, action) => {
@@ -45,7 +46,8 @@ export default function createImmerReducer(reducers) {
         ...addState,
       };
     }
-    const { type } = action;
+    let { type } = action;
+    type = resetType(type);
     invariant(type, 'dispatch: action should be a plain Object with type');
     const handler = mutations[type];
     if (handler) {

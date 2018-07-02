@@ -1,5 +1,6 @@
 import invariant from 'invariant';
 import { isFunction } from './utils';
+import {resetType} from './utils';
 
 export default function createAsyncMiddleware() {
   let actions;
@@ -18,7 +19,8 @@ export default function createAsyncMiddleware() {
     }
   }
   let asyncMiddleware = argv => next => action => {
-    const { type } = action;
+    let { type } = action;
+    type = resetType(type);
     const handler = actions[type];
     if (handler) {
       return handler(action, argv);
