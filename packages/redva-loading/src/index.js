@@ -67,9 +67,15 @@ function createLoading(opts = {}) {
       (except.length > 0 && except.indexOf(actionType) === -1)
     ) {
       return async function(action, { dispatch }) {
-        await dispatch({ type: SHOW, payload: { namespace, actionType } });
-        await effect(...arguments);
-        await dispatch({ type: HIDE, payload: { namespace, actionType } });
+        try{
+          await dispatch({ type: SHOW, payload: { namespace, actionType } });
+          const result = await effect(...arguments);
+          await dispatch({ type: HIDE, payload: { namespace, actionType } });
+          return result;
+        }catch(e){
+          await dispatch({ type: HIDE, payload: { namespace, actionType } });
+          throw e;
+        }
       };
     } else {
       return effect;

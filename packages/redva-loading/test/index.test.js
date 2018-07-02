@@ -271,4 +271,72 @@ describe('redva-loading', () => {
       done();
     }, 200);
   });
+
+  it('return value', done => {
+    const app = redva({
+      onError(err) {
+        err.preventDefault();
+        console.log('failed', err.message);
+      },
+    });
+    app.use(createLoading());
+    app.model({
+      namespace: 'count',
+      state: 0,
+      actions: {
+        async doSomething(action, { dispatch }) {
+          await delay(100);
+          return "123";
+        },
+      },
+    });
+    app.router(() => 1);
+    app.start();
+
+    let promise = app._store.dispatch({ type: 'count/doSomething' });
+    expect(app._store.getState().loading.global).toEqual(true);
+    promise.then((result)=>{
+      expect(app._store.getState().loading.global).toEqual(false);
+      expect(result).toEqual("123");
+      done();
+    });
+  });
+
+  it('error catch from deep', done => {
+    const app = redva({
+      onError(err) {
+        err.preventDefault();
+        console.log('failed', err.message);
+      },
+    });
+    app.use(createLoading());
+    app.model({
+      namespace: 'count',
+      state: 0,
+      actions: {
+        async doSomething(action,{dispatch}){
+          throw "error";
+        },
+        async doSomething2(action, { dispatch }) {
+          await dispatch({
+            type:"doSomething"
+          });
+        },
+      },
+    });
+    app.router(() => 1);
+    app.start();
+
+    let promise = app._store.dispatch({ type: 'count/doSomething2' });
+    expect(app._store.getState().loading.global).toEqual(true);
+    promise
+      .then(()=>{
+        expect("do not run here!").toEqual(false);
+      })
+      .catch((err)=>{
+        expect(app._store.getState().loading.global).toEqual(false);
+        expect(err).toEqual("error");
+        done();
+      });
+  });
 });
