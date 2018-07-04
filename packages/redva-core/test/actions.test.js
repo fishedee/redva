@@ -178,6 +178,27 @@ describe('effects', () => {
     expect(app._store.getState().loading).toEqual(true);
   });
 
+  it('dispatch action with exception', async (done) => {
+    const app = create();
+    app.model({
+      namespace: 'count',
+      state: 0,
+      actions: {
+        async addDelay(_, { dispatch }) {
+          throw new Error("123");
+        },
+      },
+    });
+    app.start();
+    try{
+      await app._store.dispatch({ type: 'count/addDelay' });
+      expect("do not run here!").toEqual(false);
+    }catch(e){
+      expect(e.message).toEqual("123");
+      done();
+    }
+  });
+
   it('onError', () => {
     const errors = [];
     const app = create({

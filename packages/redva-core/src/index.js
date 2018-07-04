@@ -143,9 +143,7 @@ export function create(hooksAndOpts = {}, createOpts = {}) {
         err.preventDefault = () => {
           err._dontReject = true;
         };
-        plugin.apply('onError', err => {
-          throw new Error(err.stack || err);
-        })(err, app._store.dispatch, extension);
+        plugin.apply('onError',noop)(err, app._store.dispatch, extension);
       }
     };
     let extraModels = plugin.get('extraModels');
